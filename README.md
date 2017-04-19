@@ -1,2 +1,4 @@
 # ratabase
-a simple in-memory database using hash index.
+
+a simple in-memory key-value database.
+
