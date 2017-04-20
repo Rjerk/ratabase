@@ -2,20 +2,34 @@
 #define SERVER_H
 
 #include "ratabase.h"
+#include "parser.h"
+#include <memory>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
 class Server {
 public:
-    Server();
+    Server(int port_ = 9999);
     ~Server();
     void run();
-    void process();
+    bool processRequest();
 private:
     void serverInit();
+    bool recvRequest();
+    bool sendRespond();
+    bool parseRequest();
+    bool dbOperate();
     void createDb();
 private:
     int servSock;
-    int listenSock;
-    Ratabase* rb;
+    int connSock;
+    int port;
+    struct sockaddr_in servAddr;
+    struct sockaddr_in clntAddr;
+    char* buf;
+    static const size_t bufsz = 1024;
+    Ratabase** db;
+    Parser* parser;
 };
 
 

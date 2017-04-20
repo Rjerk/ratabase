@@ -2,6 +2,7 @@
 #define RATABASE_H
 
 #include "hash.h"
+#include "parser.h"
 
 class Ratabase {
 public:
@@ -11,7 +12,8 @@ public:
     bool dbGet(const char* key, Value& val);
     bool dbDelete(const char* key);
 private:
-    Hashtable* htable; // pimp
+    Hashtable* htable;
+    Parser* parser;
 };
 
 

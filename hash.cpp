@@ -1,8 +1,5 @@
 #include "hash.h"
 #include <cstring>
-#include <iostream>
-#include <exception>
-#include <stdexcept>
 
 Hashtable::Hashtable(size_t sz):
     tablesz(sz)
