@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cassert>
 #include <cstring>
+#include <cstdio>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -98,16 +99,25 @@ bool Server::processRequest()
         cerr << "Failed receiving request." << endl;
         return false;
     }
+
     cout << "Receive request finished, parsing request..." << endl;
     if (this->parseRequest() == false) {
         cerr << "Failed parsing request." << endl;
-        return false;
+    //    return false;
     }
+
     cout << "Parse command finished, operating database..." << endl;
     if (this->dbOperate() == false) {
         cerr << "Failed operating database." << endl;
         return false;
     }
+
+    string s = cmd.cmd_name + " " + cmd.obj_name;
+    for (string i : cmd.params)
+        s += (" " + i);
+    memset(buf, char(), bufsz);
+    sprintf (buf, "%s", s.c_str());
+
     cout << "Handle request finished, sending respond..." << endl;
     if (this->sendRespond() == false) {
         cerr << "Failed send respond." << endl;
@@ -147,8 +157,7 @@ bool Server::sendRespond()
 
 bool Server::parseRequest()
 {
-    memset(buf, char(), bufsz);
-    return parser->parse(buf); // parsing result write to server buffer.
+    return parser->parse(cmd);
 }
 
 bool Server::dbOperate()

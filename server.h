@@ -30,6 +30,7 @@ private:
     static const size_t bufsz = 1024;
     Ratabase** db;
     Parser* parser;
+    cmd_v cmd;
 };
 
 
