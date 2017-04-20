@@ -2,7 +2,7 @@
 
 ## Function test
 
-Test for basic function using *_test.cpp, for example:
+Test the basic functionality using *_test.cpp, for example:
 
 ```
 sh hash_test.sh
