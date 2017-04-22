@@ -55,111 +55,111 @@ Hash table, use separate chaing with linked lists to resolve collision.
 
 create a new database.
 ```
-- create [db-name]
+create [db-name]
 ```
 
 switch a created database.
 ```
-- select [db-name]
+select [db-name]
 ```
 
 delete a created database.
 ```
-- delete [db-name]
+delete [db-name]
 ```
 
 display all databases' name and created time.
 ```
-- dispaly
+dispaly
 ```
 
 ### string
 
 create a string-object with string.
 ```
-- sset [str-name] [string]
+sset [str-name] [string]
 ```
 
 append new string to a string-object.
 ```
-- sapp [str-name] [append-string]
+sapp [str-name] [append-string]
 ```
 
 return string-object's length.
 ```
-- slen [str-name]
+slen [str-name]
 ```
 
 empty a string-object.
 ```
-- sclr [str-name]
+sclr [str-name]
 ```
 
 ### list
 
 create a list-object with one or more elements, elements are same type.
 ```
-- lset [lst-name] [new-elem]+
+lset [lst-name] [new-elem]+
 ```
 
 push a new element to list's tail.
 ```
-- lpush [lst-name] [new-elem]
+lpush [lst-name] [new-elem]
 ```
 
 pop a element from list's head.
 ```
-- lpop [lst-name]
+lpop [lst-name]
 ```
 
 return list-object's size.
 ```
-- lsize [lst-name]
+lsize [lst-name]
 ```
 
 return index for a element in list.
 ```
-- lidx [lst-name] [elem]
+lidx [lst-name] [elem]
 ```
 
 insert a new element to list in index.
 ```
-- lput [lst-name] [index] [new-elem]
+lput [lst-name] [index] [new-elem]
 ```
 
 return a element at index in list.
 ```
-- lget [lst-name] [index]
+lget [lst-name] [index]
 ```
 
 delete a element at index in list.
 ```
-- ldel [lst-name] [index]
+ldel [lst-name] [index]
 ```
 
 ### dict
 
 create a dictory with one or more key-value pairs.
 ```
-- dset [dict-name] {[key] [value]}+
+dset [dict-name] {[key] [value]}+
 ```
 
 add one or more key-value pairs to a created dictory, if key has existed, update its value.
 ```
-- dadd [dict-name] {[key] [value]}+
+dadd [dict-name] {[key] [value]}+
 ```
 
 delete a key-value pair in dictory.
 ```
-- ddel [dict-name] [key]
+ddel [dict-name] [key]
 ```
 
 return a created dictory's size.
 ```
-- dsize [dict-name]
+dsize [dict-name]
 ```
 
 return key's key-value pair.
 ```
-- dget [dict-name] [key]
+dget [dict-name] [key]
 ```
