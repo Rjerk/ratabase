@@ -2,6 +2,7 @@
 #include <cstring>
 #include <sstream>
 #include <iostream>
+#include <stdexcept>
 
 using std::cout;
 using std::endl;
@@ -32,13 +33,20 @@ bool Parser::parse(cmd_v& cmd)
 {
     string buf = string(buffer);
     istringstream cmdstr(buf);
-
+    cmd.cmd_name.clear();
     cmdstr >> cmd.cmd_name; // read command name
+    cmd.obj_name.clear();
     cmdstr >> cmd.obj_name; // read object name
     string param;
+    cmd.params.clear();
     while (cmdstr >> param)
         cmd.params.push_back(param);
 
+    if (cmd_map.find(cmd.cmd_name) == cmd_map.end()) {
+        cerr << "Commnad \"" << cmd.cmd_name << "\" not found." << endl;
+        return false;
+    }
+    cmd.type = cmd_map[cmd.cmd_name];
     switch (cmd_map[cmd.cmd_name]) {
         case cmd_type::DISPLAY: // check 0 argument after command
             return check0(cmd);
@@ -47,28 +55,27 @@ bool Parser::parse(cmd_v& cmd)
         case cmd_type::DELETE:
         case cmd_type::SLEN:
         case cmd_type::SCLR:
-		case cmd_type::LPOP:
-		case cmd_type::LSIZE:
-		case cmd_type::DSIZE:
+        case cmd_type::LPOP:
+        case cmd_type::LSIZE:
+        case cmd_type::DSIZE:
             return check1(cmd); // check 1 argument after command
 
-		case cmd_type::SSET:
-		case cmd_type::SAPP:
-		case cmd_type::LSET:
-		case cmd_type::LPUSH:
-		case cmd_type::LIDX:
-		case cmd_type::LGET:
-		case cmd_type::LDEL:
-		case cmd_type::DGET:
-		case cmd_type::DDEL:
+        case cmd_type::SSET:
+        case cmd_type::SAPP:
+        case cmd_type::LSET:
+        case cmd_type::LPUSH:
+        case cmd_type::LIDX:
+        case cmd_type::LGET:
+        case cmd_type::LDEL:
+        case cmd_type::DGET:
+        case cmd_type::DDEL:
 			return check2(cmd); // check 2 arguments after command
 
-		case cmd_type::DSET:
-		case cmd_type::DADD:
+        case cmd_type::DSET:
+        case cmd_type::DADD:
 			return checkMore(cmd); // check more arguments
-		default:
-			cerr << "Command \"" << cmd.cmd_name << "\" not found" << endl;
-			return false;
+        default:
+            return false;
     };
 }
 
