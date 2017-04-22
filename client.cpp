@@ -41,16 +41,15 @@ int main(int argc, char** argv)
             break;
 
         str_len = write(sock, message, strlen(message));
-        int recv_len = 0;
-        while (recv_len < str_len) {
-            int recv_cnt = read(sock, message+recv_len, BUF_SIZE-1);
-            if (recv_cnt == -1)
-                error_handling("read() error!");
+        if (str_len == -1)
+            error_handling("write() error.");
 
-            recv_len += recv_cnt;
-        }
+        int recv_cnt = read(sock, message, BUF_SIZE-1);
+        if (recv_cnt == -1)
+            error_handling("read() error.");
+
         message[str_len] = '\0';
-        std::cout << message;
+        std::cout << message << std::endl;
     }
 
     delete [] message;
