@@ -6,7 +6,7 @@ a simple in-memory key-value database.
 
 ```
 sh build.sh
-./server &
+./server
 ./client
 ```
 
@@ -27,18 +27,15 @@ dictory supports unordered, unique key, with string or number type value.
 
 - [server.h | client.h | parser.h]
 
-In this project, I use client-server model. Client uses command to operating databaes, server parses
-the command, run and return the result to client.
+> In this project, I use client-server model. Client uses command to operating databaes, server parses the command, run and return the result to client.
 
 - [ratabaseManager.h]
 
-Ratabase Manager use array to store different databases, and supports
-create, switch, delete, display all databases.
+Ratabase Manager use array to store different databases, and supports create, switch, delete, display all databases.
 
 - [ratabase.h]
 
-It uses hash table to store different data, and index data by searching
-variable name.
+It uses hash table to store different data, and index data by searching variable name.
 
 - [value.h]
 
@@ -56,92 +53,113 @@ Hash table, use separate chaing with linked lists to resolve collision.
 
 ### database
 
-- create [db-name]
-
 create a new database.
-
-- select [db-name]
+```
+- create [db-name]
+```
 
 switch a created database.
-
-- delete [db-name]
+```
+- select [db-name]
+```
 
 delete a created database.
-
-- dispaly
+```
+- delete [db-name]
+```
 
 display all databases' name and created time.
+```
+- dispaly
+```
 
 ### string
 
-- sset [str-name] [string]
-
 create a string-object with string.
-
-- sapp [str-name] [append-string]
+```
+- sset [str-name] [string]
+```
 
 append new string to a string-object.
-
-- slen [str-name]
+```
+- sapp [str-name] [append-string]
+```
 
 return string-object's length.
-
-- sclr [str-name]
+```
+- slen [str-name]
+```
 
 empty a string-object.
+```
+- sclr [str-name]
+```
 
 ### list
 
-- lset [lst-name] [new-elem]+
-
 create a list-object with one or more elements, elements are same type.
-
-- lpush [lst-name] [new-elem]
+```
+- lset [lst-name] [new-elem]+
+```
 
 push a new element to list's tail.
-
-- lpop [lst-name]
+```
+- lpush [lst-name] [new-elem]
+```
 
 pop a element from list's head.
-
-- lsize [lst-name]
+```
+- lpop [lst-name]
+```
 
 return list-object's size.
-
-- lidx [lst-name] [elem]
+```
+- lsize [lst-name]
+```
 
 return index for a element in list.
-
-- lput [lst-name] [index] [new-elem]
+```
+- lidx [lst-name] [elem]
+```
 
 insert a new element to list in index.
-
-- lget [lst-name] [index]
+```
+- lput [lst-name] [index] [new-elem]
+```
 
 return a element at index in list.
-
-- ldel [lst-name] [index]
+```
+- lget [lst-name] [index]
+```
 
 delete a element at index in list.
+```
+- ldel [lst-name] [index]
+```
 
 ### dict
 
-- dset [dict-name] {[key] [value]}+
-
 create a dictory with one or more key-value pairs.
-
-- dadd [dict-name] {[key] [value]}+
+```
+- dset [dict-name] {[key] [value]}+
+```
 
 add one or more key-value pairs to a created dictory, if key has existed, update its value.
-
-- ddel [dict-name] [key]
+```
+- dadd [dict-name] {[key] [value]}+
+```
 
 delete a key-value pair in dictory.
-
-- dsize [dict-name]
+```
+- ddel [dict-name] [key]
+```
 
 return a created dictory's size.
-
-- dget [dict-name] [key]
+```
+- dsize [dict-name]
+```
 
 return key's key-value pair.
+```
+- dget [dict-name] [key]
+```
