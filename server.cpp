@@ -9,8 +9,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-const int DB_MAX_NUM = 10;
+#include <signal.h>
 
 using std::cout;
 using std::endl;
@@ -19,21 +18,15 @@ using std::cerr;
 Server::Server(int port_):
     port(port_)
 {
+    serverInit();
     buf = new char[bufsz];
-    db = new Ratabase*[DB_MAX_NUM];
-    for (size_t i = 0; i < DB_MAX_NUM; ++i) {
-        db[i] = nullptr;
-    }
-    db[0] = new Ratabase;
+    rm = new RatabaseManager();
 }
 
 Server::~Server()
 {
-    for (size_t i = 0; i < DB_MAX_NUM; ++i) {
-        delete db[i];
-    }
-    delete [] db;
     delete [] buf;
+    delete rm;
     close(servSock);
 }
 
@@ -68,7 +61,6 @@ void Server::serverInit()
 
 void Server::run()
 {
-    serverInit();
     for (int i = 1; ; ++i) {
         socklen_t len = sizeof(clntAddr);
         if ((connSock = accept(servSock,
@@ -85,10 +77,10 @@ void Server::run()
             parser = new Parser();
             while (this->processRequest())
                 ;
+            delete parser;
             cout << "\n---Close connection to client " << i << "---\n" << endl;
         } else
             close(connSock);
-
     }
 
 }
@@ -117,6 +109,7 @@ bool Server::processRequest()
         s += (" " + i);
     memset(buf, char(), bufsz);
     sprintf (buf, "%s", s.c_str());
+    cout << "buf:" << buf << endl;
 
     cout << "Handle request finished, sending respond..." << endl;
     if (this->sendRespond() == false) {
@@ -162,7 +155,7 @@ bool Server::parseRequest()
 
 bool Server::dbOperate()
 {
-    return true;
+    return rm->manageDB(cmd);
 }
 
 int main(int argc, char** argv)

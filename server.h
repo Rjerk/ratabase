@@ -1,7 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "ratabase.h"
+#include "ratabaseManager.h"
 #include "parser.h"
 #include <memory>
 #include <arpa/inet.h>
@@ -19,7 +19,6 @@ private:
     bool sendRespond();
     bool parseRequest();
     bool dbOperate();
-    void createDb();
 private:
     int servSock;
     int connSock;
@@ -28,7 +27,7 @@ private:
     struct sockaddr_in clntAddr;
     char* buf;
     static const size_t bufsz = 1024;
-    Ratabase** db;
+    RatabaseManager* rm;
     Parser* parser;
     cmd_v cmd;
 };
