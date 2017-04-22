@@ -6,7 +6,7 @@
 
 class Hashtable {
 public:
-    Hashtable(): tablesz(5) {}
+    Hashtable();
     Hashtable(size_t sz);
     ~Hashtable();
     Hashtable(const Hashtable&) = delete;

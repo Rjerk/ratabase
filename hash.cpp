@@ -10,6 +10,11 @@ Hashtable::Hashtable(size_t sz):
     }
 }
 
+Hashtable::Hashtable():
+    Hashtable(5)
+{
+}
+
 Hashtable::~Hashtable()
 {
 	for (size_t i = 0; i < tablesz; ++i) {
