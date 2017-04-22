@@ -27,7 +27,7 @@ dictory supports unordered, unique key, with string or number type value.
 
 - [server.h | client.h | parser.h]
 
-> In this project, I use client-server model. Client uses command to operating databaes, server parses the command, run and return the result to client.
+In this project, I use client-server model. Client uses command to operating databaes, server parses the command, run and return the result to client.
 
 - [ratabaseManager.h]
 
