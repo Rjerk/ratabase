@@ -101,7 +101,7 @@ bool Server::processRequest()
     cout << "Parse command finished, operating database..." << endl;
     if (this->dbOperate() == false) {
         cerr << "Failed operating database." << endl;
-        return false;
+        //return false;
     }
 
     string s = cmd.cmd_name + " " + cmd.obj_name;
