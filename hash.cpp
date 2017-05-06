@@ -1,8 +1,9 @@
 #include "hash.h"
 #include <cstring>
+#include <sstream>
 
 Hashtable::Hashtable(size_t sz):
-    tablesz(sz)
+    tablesz(sz), elemsz(0)
 {
     table = new Hashnode*[sz];
     for (size_t i = 0; i < sz; ++i) {
@@ -61,6 +62,7 @@ bool Hashtable::get(const char* key, Value& value)
 void Hashtable::put(const char* key, const Value& value)
 {
 	size_t index = getSlot(key);
+    ++elemsz;
     Hashnode* entry = table[index];
     Hashnode* prev = nullptr;
 
@@ -101,6 +103,23 @@ bool Hashtable::remove(const char* key)
             prev->setNext(entry->getNext());
         }
         delete entry;
+        --elemsz;
         return true;
     }
+}
+
+string Hashtable::print() const
+{
+    std::ostringstream os;
+    os << "{\n";
+    for (size_t i = 0; i < tablesz; ++i) {
+        const Hashnode* entry = table[i];
+        while (entry != nullptr) {
+            os << "(" << string(entry->getKey())
+               << ": " << entry->getValue().getString() << ")\n";
+            entry = entry->getNext();
+        }
+    }
+    os << "}";
+    return os.str();
 }

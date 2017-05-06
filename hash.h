@@ -16,8 +16,11 @@ public:
     bool get(const char* key, Value& value);
     void put(const char* key, const Value& value);
     bool remove(const char* key);
+    size_t size() const { return elemsz; }
+    string print() const;
 private:
 	size_t tablesz;
+    size_t elemsz;
     Hashnode** table;
 };
 
