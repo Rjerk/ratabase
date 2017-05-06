@@ -104,11 +104,9 @@ bool Server::processRequest()
         //return false;
     }
 
-    string s = cmd.cmd_name + " " + cmd.obj_name;
-    for (string i : cmd.params)
-        s += (" " + i);
+    string msg = rm->getMsg();
     memset(buf, char(), bufsz);
-    sprintf (buf, "%s", s.c_str());
+    sprintf (buf, "%s", msg.c_str());
     cout << "buf:" << buf << endl;
 
     cout << "Handle request finished, sending respond..." << endl;
