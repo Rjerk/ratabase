@@ -48,11 +48,11 @@ bool RatabaseManager::createDB(const string& dbname)
 {
     size_t id;
     if (searchDB(dbname, id)) {
-        cerr << "\"" << dbname << "\"[" << id << "] have existed." << endl;
+        msg << "\"" << dbname << "\"[" << id << "] have existed." << endl;
         return false;
     }
     if (dbcount == DB_NUM_MAX) {
-        cerr << "The Number of databases limited in "
+        msg << "The Number of databases limited in "
              << DB_NUM_MAX << "."<< endl;
         return false;
     }
@@ -69,7 +69,7 @@ bool RatabaseManager::selectDB(const string& dbname)
         current_db = dbtable[id];
         return true;
     } else {
-        cerr << "\"" << dbname << "\" doesn't exist." << endl;
+        msg << "\"" << dbname << "\" doesn't exist." << endl;
         return false;
     }
 }
@@ -85,7 +85,7 @@ bool RatabaseManager::deleteDB(const string& dbname)
         --dbcount;
         return true;
     } else {
-        cerr << "\"" << dbname << "\" doesn't exist." << endl;
+        msg << "\"" << dbname << "\" doesn't exist." << endl;
         return false;
     }
 }
@@ -93,13 +93,13 @@ bool RatabaseManager::deleteDB(const string& dbname)
 bool RatabaseManager::displayDB() const
 {
     if (dbcount == 0) {
-        cerr << "There is no database, use 'create [db-name]' build a new one." << endl;
+        msg << "There is no database, use 'create [db-name]' build a new one." << endl;
         return false;
     } else {
-        cout << "db count: " << dbcount << endl;
-        cout << "[id]  db-name " << endl;
+        msg << "db count: " << dbcount << endl;
+        msg << "[id]  db-name " << endl;
         for (size_t i = 0; i < dbcount; ++i) {
-            cout << "[ " << i << "]"
+            msg << "[ " << i << "]"
                  << "  " << dbtable[i]->getName() << endl;
         }
         return true;
@@ -109,10 +109,11 @@ bool RatabaseManager::displayDB() const
 bool RatabaseManager::otherOperation(const cmd_v& cmd)
 {
     if (current_db == nullptr) {
-        cerr << "Select or create a database to use." << endl;
+        msg << "Select or create a database to use." << endl;
         return false;
     }
-    return current_db->operate(cmd);
+    msg << current_db->operate(cmd);
+    return true;
 }
 
 bool RatabaseManager::searchDB(const string& dbname, size_t& id)
