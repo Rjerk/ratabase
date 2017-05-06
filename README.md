@@ -132,9 +132,9 @@ return a element at index in list.
 lget [lst-name] [index]
 ```
 
-delete a element at index in list.
+delete a element in list.
 ```
-ldel [lst-name] [index]
+ldel [lst-name] [elem]
 ```
 
 ### dict
