@@ -1,4 +1,5 @@
 #include "value.h"
+#include "hash.h"
 #include <utility>
 #include <iostream>
 #include <cstdlib>
@@ -127,21 +128,56 @@ bool Value::deleteList(const string& elem)
     return lst->del(elem);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 void Value::setDict(const vector<string>& params)
 {
+    Hashtable* dict = new Hashtable();
+
+    for (vector<string>::const_iterator p = params.cbegin(), q = p+1;
+                        p != params.cend();
+                        p += 2, q += 2) {
+        Value v;
+        v.setString(*q);
+        dict->put(p->c_str(), v);
+    }
+
+    val = static_cast<void*>(dict);
+    dict = nullptr;
+}
+
+void Value::addDict(const vector<string>& params)
+{
+    Hashtable* dict = static_cast<Hashtable*>(val);
+    for (vector<string>::const_iterator p = params.cbegin(), q = p+1;
+                        p != params.cend();
+                        p += 2, q += 2) {
+        Value v;
+        v.setString(*q);
+        dict->put(p->c_str(), v);
+    }
+}
+
+bool Value::deleteDict(const string& key)
+{
+    Hashtable* dict = static_cast<Hashtable*>(val);
+    return dict->remove(key.c_str());
+}
+
+size_t Value::sizeDict() const
+{
+    Hashtable* dict = static_cast<Hashtable*>(val);
+    return dict->size();
+}
+
+bool Value::getDict(const string& key, Value& v)
+{
+    Hashtable* dict = static_cast<Hashtable*>(val);
+    return dict->get(key.c_str(), v);
+}
+
+string Value::printDict() const
+{
+    Hashtable* dict = static_cast<Hashtable*>(val);
+    return dict->print();
 }
 
 void Value::freeValue()
@@ -151,12 +187,12 @@ void Value::freeValue()
             delete (string*)val;
             break;
         case LIST:
+            delete (List*)val;
             break;
         case DICT:
+            delete (Hashtable*)val;
             break;
         default:
             break;
     }
 }
-
-

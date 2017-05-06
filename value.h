@@ -28,6 +28,12 @@ public:
     string getList(size_t pos) const;
     bool deleteList(const string& elem);
 
+    void addDict(const vector<string>& params);
+    bool deleteDict(const string& key);
+    size_t sizeDict() const;
+    bool getDict(const string& key, Value& v);
+    string printDict() const;
+
     void freeValue();
 private:
     void swap(Value& rhs);
