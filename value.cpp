@@ -10,7 +10,6 @@ Value::Value():
 
 Value::~Value()
 {
-    freeValue();
 }
 
 Value::Value(const Value& rhs)
@@ -28,21 +27,128 @@ Value& Value::operator=(Value rhs)
 void Value::swap(Value& rhs)
 {
     using std::swap;
-    std::swap(type, rhs.type);
-    std::swap(val, rhs.val);
+    swap(type, rhs.type);
+    swap(val, rhs.val);
 }
 
-void Value::set(int type_, const void* val_)
+void Value::set(int type_, const cmd_v& cmd)
 {
-    val = val_;
     type = type_;
-    return ;
+    switch (type) {
+        case STRING:
+            setString(cmd.params.front()); break;
+        case LIST:
+            setList(cmd.obj_name.c_str(), cmd.params); break;
+        case DICT:
+            setDict(cmd.params); break;
+        default:
+            return ;
+    }
+}
+
+void Value::setString(const string& str)
+{
+    val = static_cast<void*> (new string(str));
+}
+
+void Value::appString(const string& str)
+{
+    string s = getString() + str;
+    freeValue();
+    setString(s);
+}
+
+void Value::clearString()
+{
+    freeValue();
+    setString("");
+}
+
+void Value::setList(const char* key, const vector<string>& params)
+{
+    List* lst = new List(string(key));
+    for (auto s : params) {
+        lst->push(s);
+    }
+    val = static_cast<void*> (lst);
+    lst = nullptr;
+}
+
+string Value::printList() const
+{
+    List* lst = static_cast<List*>(val);
+    return lst->print();
+}
+
+void Value::pushList(const string& new_elem)
+{
+    List* lst = static_cast<List*>(val);
+    lst->push(new_elem);
+}
+
+ListNode Value::popList()
+{
+    List* lst = static_cast<List*>(val);
+    return lst->pop();
+}
+
+size_t Value::sizeList() const
+{
+    List* lst = static_cast<List*>(val);
+    return lst->size();
+}
+
+int Value::indexList(const string& elem) const
+{
+    List* lst = static_cast<List*>(val);
+    return lst->index(elem);
+}
+
+void Value::putList(size_t pos, const string& elem)
+{
+    List* lst = static_cast<List*>(val);
+    lst->put(pos, elem);
+}
+
+string Value::getList(size_t pos) const
+{
+    List* lst = static_cast<List*>(val);
+    string s;
+    if (lst->get(pos, s)) {
+        return s;
+    } else {
+        return string();
+    }
+}
+
+bool Value::deleteList(const string& elem)
+{
+    List* lst = static_cast<List*>(val);
+    return lst->del(elem);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Value::setDict(const vector<string>& params)
+{
 }
 
 void Value::freeValue()
 {
     switch (type) {
         case STRING:
+            delete (string*)val;
             break;
         case LIST:
             break;
