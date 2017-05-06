@@ -114,4 +114,47 @@ int main()
         };
         cout << rb.operate(ldel); // [good, new, index]
     }
+
+    {
+        cout << "\ndict cmd test: \n";
+
+        cmd_v dset = {
+            type : cmd_type::DSET,
+            cmd_name : "dset",
+            obj_name : "d1",
+            params : { "1", "first", "2", "second" }
+        };
+        cout << rb.operate(dset);
+
+        cmd_v dadd = {
+            type : cmd_type::DADD,
+            cmd_name : "dadd",
+            obj_name : "d1",
+            params : { "3", "third", "4", "four" }
+        };
+        cout << rb.operate(dadd); // { (2: second) (3: third) (4: four) (1: first) }
+        cmd_v ddel = {
+            type : cmd_type::DDEL,
+            cmd_name : "ddel",
+            obj_name : "d1",
+            params : { "1"}
+        };
+        cout << rb.operate(ddel); // { (2: second) (3: third) (4: four) }
+
+        cmd_v dsize = {
+            type : cmd_type::DSIZE,
+            cmd_name : "dsize",
+            obj_name : "d1",
+            params : { }
+        };
+        cout << rb.operate(dsize); // 3
+
+        cmd_v dget = {
+            type : cmd_type::DGET,
+            cmd_name : "dget",
+            obj_name : "d1",
+            params : { "3" }
+        };
+        cout << rb.operate(dget); // ( 3: third )
+    }
 }
