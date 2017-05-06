@@ -27,18 +27,15 @@ string Ratabase::operate(const cmd_v& cmd)
 			sclr(cmd); break;
 		case cmd_type::LSET:
 			lset(cmd); break;
+		default:
+			listOperate(cmd); break;
 		case cmd_type::DSET:
 			dset(cmd); break;
 		case cmd_type::DADD:
-			dadd(cmd); break;
 		case cmd_type::DDEL:
-			ddel(cmd); break;
 		case cmd_type::DSIZE:
-			dsize(cmd); break;
 		case cmd_type::DGET:
-			dget(cmd); break;
-		default:
-			listOperate(cmd); break;
+			dictOperate(cmd); break;
 	}
 	return msg;
 }
@@ -176,25 +173,55 @@ void Ratabase::ldel(Value& v, const string& elem)
 
 void Ratabase::dset(const cmd_v& cmd)
 {
-
+	Value v;
+	v.set(DICT, cmd);
+	addVal(cmd.obj_name.c_str(), v);
+	setMsg("dset ok.");
 }
 
-void Ratabase::dadd(const cmd_v& cmd)
+void Ratabase::dictOperate(const cmd_v& cmd)
 {
-
+	Value v;
+	getVal(cmd.obj_name.c_str(), v);
+	switch (cmd.type) {
+		case cmd_type::DADD:
+			dadd(v, cmd.params); break;
+		case cmd_type::DDEL:
+			ddel(v, cmd.params.front()); break;
+		case cmd_type::DSIZE:
+			dsize(v); break;
+		case cmd_type::DGET:
+			dget(v, cmd.params.front()); break;
+		default:
+			return ;
+	}
 }
 
-void Ratabase::ddel(const cmd_v& cmd)
+void Ratabase::dadd(Value& v, const vector<string>& params)
 {
-
+	v.addDict(params);
+	setMsg(v.printDict());
 }
 
-void Ratabase::dsize(const cmd_v& cmd)
+void Ratabase::ddel(Value& v, const string& key)
 {
-
+	if (v.deleteDict(key))
+		setMsg(v.printDict());
+	else
+		setMsg(key+" doesn't exist.");
 }
 
-void Ratabase::dget(const cmd_v& cmd)
+void Ratabase::dsize(const Value& v)
 {
+	setMsg(std::to_string(v.sizeDict()));
+}
 
+void Ratabase::dget(Value& v, const string& key)
+{
+	Value elem;
+	if (v.getDict(key, elem)) {
+		setMsg("(" + key + ", " + elem.getString() + ")");
+	} else {
+		setMsg(key+" doesn't exist.");
+	}
 }

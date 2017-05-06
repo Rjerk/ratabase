@@ -10,12 +10,12 @@ public:
     RatabaseManager();
     ~RatabaseManager();
     bool manageDB(const cmd_v& cmd);
-    string getMsg() { return log.str(); }
+    string getMsg() { return msg.str(); }
 private:
     bool createDB(const string& dbname);
     bool selectDB(const string& dbname);
     bool deleteDB(const string& dbname);
-    bool displayDB() const;
+    bool displayDB();
     bool otherOperation(const cmd_v& cmd);
     bool searchDB(const string& dbname, size_t& id);
     void resetMsg()

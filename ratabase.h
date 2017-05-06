@@ -35,10 +35,11 @@ private:
 	void ldel(Value& v, const string& s);
 
 	void dset(const cmd_v& cmd);
-	void dadd(const cmd_v& cmd);
-	void ddel(const cmd_v& cmd);
-	void dsize(const cmd_v& cmd);
-	void dget(const cmd_v& cmd);
+	void dictOperate(const cmd_v& cmd);
+	void dadd(Value& v, const vector<string>& params);
+	void ddel(Value& v, const string& key);
+	void dsize(const Value& v);
+	void dget(Value& v, const string& key);
 private:
     string dbname;
     Hashtable* htable;

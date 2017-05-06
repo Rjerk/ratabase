@@ -46,14 +46,15 @@ bool RatabaseManager::manageDB(const cmd_v& cmd)
 
 bool RatabaseManager::createDB(const string& dbname)
 {
+    resetMsg();
     size_t id;
     if (searchDB(dbname, id)) {
-        msg << "\"" << dbname << "\"[" << id << "] have existed." << endl;
+        msg << "\"" << dbname << "\"[" << std::to_string(id) << "] have existed." << endl;
         return false;
     }
     if (dbcount == DB_NUM_MAX) {
         msg << "The Number of databases limited in "
-             << DB_NUM_MAX << "."<< endl;
+             << std::to_string(DB_NUM_MAX) << "."<< endl;
         return false;
     }
     dbtable[dbcount] = new Ratabase(dbname);
@@ -64,6 +65,7 @@ bool RatabaseManager::createDB(const string& dbname)
 
 bool RatabaseManager::selectDB(const string& dbname)
 {
+    resetMsg();
     size_t id;
     if (searchDB(dbname, id)) {
         current_db = dbtable[id];
@@ -76,6 +78,7 @@ bool RatabaseManager::selectDB(const string& dbname)
 
 bool RatabaseManager::deleteDB(const string& dbname)
 {
+    resetMsg();
     size_t id;
     if (searchDB(dbname, id)) {
         if (current_db == dbtable[id])
@@ -90,8 +93,9 @@ bool RatabaseManager::deleteDB(const string& dbname)
     }
 }
 
-bool RatabaseManager::displayDB() const
+bool RatabaseManager::displayDB()
 {
+    resetMsg();
     if (dbcount == 0) {
         msg << "There is no database, use 'create [db-name]' build a new one." << endl;
         return false;
@@ -99,8 +103,8 @@ bool RatabaseManager::displayDB() const
         msg << "db count: " << dbcount << endl;
         msg << "[id]  db-name " << endl;
         for (size_t i = 0; i < dbcount; ++i) {
-            msg << "[ " << i << "]"
-                 << "  " << dbtable[i]->getName() << endl;
+            msg << "[ " << std::to_string(i) << "]"
+                << "  " << dbtable[i]->getName() << endl;
         }
         return true;
     }
@@ -108,6 +112,7 @@ bool RatabaseManager::displayDB() const
 
 bool RatabaseManager::otherOperation(const cmd_v& cmd)
 {
+    resetMsg();
     if (current_db == nullptr) {
         msg << "Select or create a database to use." << endl;
         return false;
