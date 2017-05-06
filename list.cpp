@@ -1,5 +1,6 @@
 #include "list.h"
 #include <iostream>
+#include <sstream>
 
 List::List(const string& name):
     obj_name(name), sz(0), head(nullptr), tail(nullptr)
@@ -48,15 +49,16 @@ ListNode List::pop()
     }
 }
 
-size_t List::index(const string& s) const
+int List::index(const string& s) const
 {
     ListNode* p = head;
     size_t i = 0;
     while (p->next != nullptr) {
         if (p->s == s) {
-            return i;
+            return (int)i;
         }
         ++i;
+        p = p->next;
     }
     return -1;
 }
@@ -80,7 +82,9 @@ void List::put(size_t pos, const string& s)
             if (i != pos) {
                 ++i;
                 p = p->next;
-            }
+            } else {
+            	break;
+			}
         }
         p->prev->next = newnode;
         newnode->prev = p->prev;
@@ -131,6 +135,8 @@ bool List::del(const string& s)
             while (p->next != nullptr) {
                 if (p->s == s)
                     break;
+                else
+                	p = p->next;
             }
             p->prev->next = p->next;
             p->next->prev = p->prev;
@@ -143,16 +149,18 @@ bool List::del(const string& s)
     }
 }
 
-void List::print()
+string List::print()
 {
+    std::ostringstream os;
     ListNode* p = head;
     if (p == nullptr)
-        std::cout << "[]" << std::endl;
+        os << "[]" << std::endl;
 
     std::cout << "[";
     while (p != nullptr && p->next != nullptr) {
-        std::cout << p->s << ", ";
+        os << p->s << ", ";
         p = p->next;
     }
-    std::cout << p->s << "]" << std::endl;
+    os << p->s << "]";
+    return os.str();
 }
