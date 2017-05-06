@@ -44,6 +44,7 @@ int main(int argc, char** argv)
         if (str_len == -1)
             error_handling("write() error.");
 
+        // undo: fix read all message.
         int recv_cnt = read(sock, message, BUF_SIZE-1);
         if (recv_cnt == -1)
             error_handling("read() error.");
