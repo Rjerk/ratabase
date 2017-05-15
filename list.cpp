@@ -156,7 +156,7 @@ string List::print()
     if (p == nullptr)
         os << "[]" << std::endl;
 
-    std::cout << "[";
+    os << "[";
     while (p != nullptr && p->next != nullptr) {
         os << p->s << ", ";
         p = p->next;
