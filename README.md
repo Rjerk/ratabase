@@ -15,10 +15,12 @@ sh build.sh
 ratabase supports these data structures: string, list, dictory.
 
 - string
+
 string consists of characters.
 
 - list
-list consists of same type elements, but only string, number, temporarily.
+
+list consists of different elements, such as [123, "abc"].
 
 - dictory
 dictory supports unordered, unique key, with string or number type value.
@@ -163,3 +165,9 @@ return key's key-value pair.
 ```
 dget [dict-name] [key]
 ```
+
+## Undo
+
+- support on-disk persistent key-value store.
+- add more command and data structure.
+- fix bugs in ./test.
