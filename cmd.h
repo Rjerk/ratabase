@@ -28,9 +28,9 @@ static std::unordered_map<string, cmd_type> cmd_map = {
     {"slen", cmd_type::SLEN},     {"sclr", cmd_type::SCLR},
 
     {"lset", cmd_type::LSET},     {"lpush", cmd_type::LPUSH},
-    {"lsize", cmd_type::LSIZE},   {"lidx", cmd_type::LIDX},
-    {"lput", cmd_type::LPUT},     {"lget", cmd_type::LGET},
-    {"ldel", cmd_type::LDEL},
+    {"lpop", cmd_type::LPOP},     {"lsize", cmd_type::LSIZE},
+    {"lidx", cmd_type::LIDX},     {"lput", cmd_type::LPUT},
+    {"lget", cmd_type::LGET},     {"ldel", cmd_type::LDEL},
 
     {"dset", cmd_type::DSET},     {"dadd", cmd_type::DADD},
     {"ddel", cmd_type::DDEL},     {"dsize", cmd_type::DSIZE},
