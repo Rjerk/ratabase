@@ -135,7 +135,7 @@ void Ratabase::lpush(Value& v, const string& s)
 void Ratabase::lpop(Value& v)
 {
 	ListNode node = v.popList();
-	setMsg(node.s);
+	setMsg(v.printList());
 }
 
 void Ratabase::lsize(const Value& v)

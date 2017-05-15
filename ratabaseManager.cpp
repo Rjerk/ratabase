@@ -32,6 +32,7 @@ bool RatabaseManager::manageDB(const cmd_v& cmd)
     string dbname = cmd.obj_name;
     switch (cmd.type) {
         case cmd_type::CREATE:
+            cout << "create" << endl;
             return createDB(dbname);
         case cmd_type::SELECT:
             return selectDB(dbname);
@@ -49,7 +50,7 @@ bool RatabaseManager::createDB(const string& dbname)
     resetMsg();
     size_t id;
     if (searchDB(dbname, id)) {
-        msg << "\"" << dbname << "\"[" << std::to_string(id) << "] have existed." << endl;
+        msg << "[" << std::to_string(id) << "] " << dbname << " have existed." << endl;
         return false;
     }
     if (dbcount == DB_NUM_MAX) {
@@ -59,6 +60,7 @@ bool RatabaseManager::createDB(const string& dbname)
     }
     dbtable[dbcount] = new Ratabase(dbname);
     current_db = dbtable[dbcount];
+    msg << "create " << dbname << " [" << std::to_string(dbcount) << "] ok." << endl;
     ++dbcount;
     return true;
 }
@@ -69,6 +71,7 @@ bool RatabaseManager::selectDB(const string& dbname)
     size_t id;
     if (searchDB(dbname, id)) {
         current_db = dbtable[id];
+        msg << "select " << dbname << " [" << std::to_string(id) << "] ok." << endl;
         return true;
     } else {
         msg << "\"" << dbname << "\" doesn't exist." << endl;
@@ -86,6 +89,7 @@ bool RatabaseManager::deleteDB(const string& dbname)
         delete dbtable[id];
         dbtable[id] = nullptr;
         --dbcount;
+        msg << "delete " << dbname << " [" << std::to_string(id) << "] ok." << endl;
         return true;
     } else {
         msg << "\"" << dbname << "\" doesn't exist." << endl;

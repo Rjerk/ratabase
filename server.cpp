@@ -88,19 +88,19 @@ void Server::run()
 bool Server::processRequest()
 {
     if (this->recvRequest() == false) {
-        cerr << "Failed receiving request." << endl;
+        cerr << "Failed in receiving request." << endl;
         return false;
     }
 
     cout << "Receive request finished, parsing request..." << endl;
     if (this->parseRequest() == false) {
-        cerr << "Failed parsing request." << endl;
+        cerr << "Failed in parsing request." << endl;
     //    return false;
     }
 
     cout << "Parse command finished, operating database..." << endl;
     if (this->dbOperate() == false) {
-        cerr << "Failed operating database." << endl;
+        cerr << "Failed in operating database." << endl;
         //return false;
     }
 
@@ -111,7 +111,7 @@ bool Server::processRequest()
 
     cout << "Handle request finished, sending respond..." << endl;
     if (this->sendRespond() == false) {
-        cerr << "Failed send respond." << endl;
+        cerr << "Failed in sending respond." << endl;
         return false;
     }
     return true;
