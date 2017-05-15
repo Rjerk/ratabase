@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include <fcntl.h>
+#include <errno.h>
+
 
 const size_t BUF_SIZE = 1024;
 void error_handling(const std::string& msg);
@@ -14,7 +17,6 @@ int main(int argc, char** argv)
 {
     int sock;
     char* message = new char[BUF_SIZE];
-    int str_len;
     struct sockaddr_in serv_adr;
     int port = 9999;
 
@@ -25,6 +27,13 @@ int main(int argc, char** argv)
     sock = socket(PF_INET, SOCK_STREAM, 0);
     if (sock == -1)
         error_handling("socket() error");
+    /*
+    int flags = fcntl(sock, F_GETFL, 0);
+    if (flags < 0)
+        error_handling("fcntl() error");
+    flags = flags | O_NONBLOCK;
+    fcntl(sock, F_SETFL, flags);
+    */
 
     memset(&serv_adr, 0, sizeof(serv_adr));
     serv_adr.sin_family = AF_INET;
@@ -40,17 +49,14 @@ int main(int argc, char** argv)
         if (!strcmp(message, "q\n") || !strcmp(message, "Q\n"))
             break;
 
-        str_len = write(sock, message, strlen(message));
-        if (str_len == -1)
+        ssize_t ret = write(sock, message, strlen(message));
+        if (ret == -1)
             error_handling("write() error.");
-
-        // undo: fix read all message.
-        int recv_cnt = read(sock, message, BUF_SIZE-1);
-        if (recv_cnt == -1)
-            error_handling("read() error.");
-
-        message[str_len] = '\0';
-        std::cout << message << std::endl;
+        ret = read(sock, message, BUF_SIZE);
+        if (ret < 0)
+            error_handling("read() error");
+        message[ret] = '\0';
+        std::cout << message;
     }
 
     delete [] message;
