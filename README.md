@@ -5,8 +5,13 @@ a simple in-memory key-value database.
 ## Build
 
 ```
-sh build.sh
+make
 ./server
+```
+
+run client.
+
+```
 ./client
 ```
 
