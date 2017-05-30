@@ -27,13 +27,6 @@ int main(int argc, char** argv)
     sock = socket(PF_INET, SOCK_STREAM, 0);
     if (sock == -1)
         error_handling("socket() error");
-    /*
-    int flags = fcntl(sock, F_GETFL, 0);
-    if (flags < 0)
-        error_handling("fcntl() error");
-    flags = flags | O_NONBLOCK;
-    fcntl(sock, F_SETFL, flags);
-    */
 
     memset(&serv_adr, 0, sizeof(serv_adr));
     serv_adr.sin_family = AF_INET;
@@ -45,10 +38,12 @@ int main(int argc, char** argv)
 
     while (1) {
         std::cout << "Ratabase> ";
-        fgets(message, BUF_SIZE, stdin);
+        if (fgets(message, BUF_SIZE, stdin) == NULL)
+            error_handling("read() erorr");
         if (!strcmp(message, "q\n") || !strcmp(message, "Q\n"))
             break;
-
+        else if (!strcmp(message, "\n"))
+            continue;
         ssize_t ret = write(sock, message, strlen(message));
         if (ret == -1)
             error_handling("write() error.");
