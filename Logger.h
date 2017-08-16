@@ -30,6 +30,8 @@ private:
     static OutputCallback output_callback_;
 };
 
+}
+
 #define LOG_TRACE if (logging::Logger::logLevel() <= logging::Logger::Trace) \
     logging::Logger(__FILE__, __LINE__, __func__,logging::Logger::Trace).stream()
 
@@ -44,7 +46,5 @@ private:
 #define LOG_ERROR logging::Logger(__FILE__, __LINE__, __func__, logging::Logger::Error).stream()
 
 #define LOG_FATAL logging::Logger(__FILE__, __LINE__, __func__, logging::Logger::Fatal).stream()
-
-}
 
 #endif
