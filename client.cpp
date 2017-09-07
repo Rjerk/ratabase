@@ -29,9 +29,10 @@ int main(int argc, char** argv)
         exit(0);
     }
 
-    int sock = socket(PF_INET, SOCK_STREAM, 0);
+    int sock = ::socket(PF_INET, SOCK_STREAM, 0);
     if (sock == -1) {
-        LOG_FATAL << "socket() error";
+        perror("socket() error");
+        exit(0);
     }
 
     struct sockaddr_in serv_adr;
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
     while (1) {
         std::cout << "Ratabase> ";
         if (fgets(message, BUF_SIZE, stdin) == NULL && ferror(stdin)) {
-            LOG_FATAL << "fgets error" << strerror(errno);
+            perror("fgets error");
         }
         if (!strcmp(message, "q\n") || !strcmp(message, "Q\n")) {
             break;
@@ -63,5 +64,5 @@ int main(int argc, char** argv)
         std::cout << message;
     }
 
-    close(sock);
+    ::close(sock);
 }

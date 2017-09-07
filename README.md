@@ -1,178 +1,159 @@
 # Ratabase
 
-a simple in-memory key-value database.
+使用哈希表实现的基于内存的键值数据库
 
-## Build
+## 运行
+
+先运行数据库服务器，默认端口为9999：
 
 ```
 make
 ./server
 ```
 
-run client.
+用客户端进行访问：
 
 ```
 ./client
 ```
 
-## Data Structure Store
+## 设计
 
-ratabase supports these data structures: string, list, dictory.
+可以创建，管理和删除数据库。
 
-- string
+数据库内支持三种结构的存储：
 
-string consists of characters.
+- 字符串
 
-- list
+ASCII 字符
 
-list consists of different elements, such as [123, "abc"].
+- 列表
 
-- dictory
-dictory supports unordered, unique key, with string or number type value.
+可以存储不同类型元素，如 [123, "abc"]
 
-## Implement Detail
+- 字典
 
-- [server.h | client.h | parser.h]
+存储一个或多个键值对
 
-In this project, I use client-server model. Client uses command to operating databaes, server parses the command, run and return the result to client.
+## 操作
 
-- [ratabaseManager.h]
+### 数据库操作
 
-Ratabase Manager use array to store different databases, and supports create, switch, delete, display all databases.
-
-- [ratabase.h]
-
-It uses hash table to store different data, and index data by searching variable name.
-
-- [value.h]
-
-class Value wraps each data structure and store its type and data.
-
-- [list.h]
-
-As for list, I use double linked list to insert, delete elements expediently.
-
-- [hash.h | hashnode.h]
-
-Hash table, use separate chaing with linked lists to resolve collision.
-
-## Operatring Command
-
-### database
-
-create a new database.
+创建数据库
 ```
 create [db-name]
 ```
 
+切换到某数据库
 switch a created database.
 ```
 select [db-name]
 ```
 
+删除数据库
 delete a created database.
 ```
 delete [db-name]
 ```
 
-display all databases' name and created time.
+显示数据库和创建时间
 ```
 dispaly
 ```
 
-### string
+### 字符串操作
 
-create a string-object with string.
+创建一个字符串
 ```
 sset [str-name] [string]
 ```
 
-append new string to a string-object.
+在字符串尾部添加字符
 ```
 sapp [str-name] [append-string]
 ```
 
-return string-object's length.
+返回字符串长度
 ```
 slen [str-name]
 ```
 
-empty a string-object.
+清除该字符串内容
 ```
 sclr [str-name]
 ```
 
 ### list
 
-create a list-object with one or more elements, elements are same type.
+创建一个列表，创建之初必须为同一类型
 ```
 lset [lst-name] [new-elem]+
 ```
 
-push a new element to list's tail.
+表尾添加元素，可以是任意类型
 ```
 lpush [lst-name] [new-elem]
 ```
 
-pop a element from list's head.
+表头删除元素
 ```
 lpop [lst-name]
 ```
 
-return list-object's size.
+返回某表的大小
 ```
 lsize [lst-name]
 ```
 
-return index for a element in list.
+表中寻找一个元素，返回其索引
 ```
 lidx [lst-name] [elem]
 ```
 
-insert a new element to list in index.
+在表中某位置插入元素
 ```
 lput [lst-name] [index] [new-elem]
 ```
 
-return a element at index in list.
+返回某位置上的元素
 ```
 lget [lst-name] [index]
 ```
 
-delete a element in list.
+在表中删除删除某个元素
 ```
 ldel [lst-name] [elem]
 ```
 
-### dict
+### 字典
 
-create a dictory with one or more key-value pairs.
+创建一个或多个键值对作为字典内容
 ```
 dset [dict-name] {[key] [value]}+
 ```
 
-add one or more key-value pairs to a created dictory, if key has existed, update its value.
+添加一个键值对，如果键存在，则更新它的值
 ```
 dadd [dict-name] {[key] [value]}+
 ```
 
-delete a key-value pair in dictory.
+删除某个键值对
 ```
 ddel [dict-name] [key]
 ```
 
-return a created dictory's size.
+返回字典大小
 ```
 dsize [dict-name]
 ```
 
-return key's key-value pair.
+查找某个键值对
 ```
 dget [dict-name] [key]
 ```
 
 ## Undo
 
-- support on-disk persistent key-value store.
-- add more command and data structure.
-- fix bugs in ./test.
+- 支持磁盘持久化存储
+- 按名称查找和打印内容
+- 添加更多数据结构
