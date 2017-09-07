@@ -45,13 +45,11 @@ create [db-name]
 ```
 
 切换到某数据库
-switch a created database.
 ```
 select [db-name]
 ```
 
 删除数据库
-delete a created database.
 ```
 delete [db-name]
 ```
