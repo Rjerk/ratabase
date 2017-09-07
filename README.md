@@ -81,7 +81,7 @@ slen [str-name]
 sclr [str-name]
 ```
 
-### list
+### 列表操作
 
 创建一个列表，创建之初必须为同一类型
 ```
@@ -123,7 +123,7 @@ lget [lst-name] [index]
 ldel [lst-name] [elem]
 ```
 
-### 字典
+### 字典操作
 
 创建一个或多个键值对作为字典内容
 ```
