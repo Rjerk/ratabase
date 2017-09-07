@@ -24,8 +24,9 @@ std::string getTimeStr()
     return str;
 }
 
-Logger::Logger(const char* filename, int line, const char* func_name, Logger::LogLevel level)
+Logger::Logger(const char* filename, int line, const char* func_name, LogLevel level)
 {
+    setLevel(level);
     sstream_ << "[";
     sstream_ << level_string[level];
     sstream_ << "]";
@@ -36,11 +37,21 @@ Logger::Logger(const char* filename, int line, const char* func_name, Logger::Lo
     sstream_ << ": ";
 }
 
+Logger::Logger(const char* filename, int line, const char* func_name, bool to_abort)
+    : Logger(filename, line, func_name, to_abort ? Fatal : Error)
+{
+}
+
 Logger::~Logger()
 {
     if (output_callback_) {
         std::string str = sstream_.str();
+        sstream_.flush();
         output_callback_(std::move(str));
+    }
+    if (level_limit_ == Fatal) {
+        sstream_.flush();
+        ::abort();
     }
 }
 

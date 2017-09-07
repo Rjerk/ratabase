@@ -16,6 +16,7 @@ public:
 
 public:
     Logger(const char* filename, int line, const char* func_name, LogLevel);
+    Logger(const char* filename, int line, const char* func_name, bool to_abort);
     ~Logger();
 
     std::stringstream& stream();
@@ -46,5 +47,9 @@ private:
 #define LOG_ERROR logging::Logger(__FILE__, __LINE__, __func__, logging::Logger::Error).stream()
 
 #define LOG_FATAL logging::Logger(__FILE__, __LINE__, __func__, logging::Logger::Fatal).stream()
+
+#define LOG_SYSERR logging::Logger(__FILE__, __LINE__, __func__, false).stream()
+
+#define LOG_SYSFATAL logging::Logger(__FILE__, __LINE__, __func__, true).stream()
 
 #endif
