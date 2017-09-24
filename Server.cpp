@@ -49,6 +49,12 @@ void Server::serverInit()
         LOG_FATAL << "make socket error";
     }
 
+    const int on = 1;
+    ::setsockopt(servsock_, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+    if (::setsockopt(servsock_, SOL_SOCKET, SO_REUSEPORT, &on, sizeof(on)) == -1) {
+        LOG_ERROR << "setsockopt REUSEPORT failed.";
+    }
+
     sockets::bindOrDie(servsock_, (struct sockaddr* ) &servaddr);
 
     sockets::listenOrDie(servsock_);
